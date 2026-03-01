@@ -1,0 +1,441 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Broadcast-grade dark theme */
+    --background: 0 0% 4%; /* #0a0a0a - near-black */
+    --foreground: 0 0% 98%; /* #fafafa - bright white */
+    
+    --card: 0 0% 8%; /* #141414 - dark gray */
+    --card-foreground: 0 0% 98%;
+    
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 98%;
+    
+    --primary: 217 91% 60%; /* #3b82f6 - electric blue */
+    --primary-foreground: 0 0% 100%;
+    
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 0 0% 98%;
+    
+    --muted: 0 0% 15%;
+    --muted-foreground: 240 5% 65%; /* #71717a - muted gray */
+    
+    --accent: 217 91% 60%;
+    --accent-foreground: 0 0% 100%;
+    
+    --destructive: 0 84% 60%; /* #ef4444 - red for live indicator */
+    --destructive-foreground: 0 0% 100%;
+    
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 217 91% 60%;
+    
+    --radius: 0.5rem;
+    
+    /* Chart colors */
+    --chart-1: 217 91% 60%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+    
+    /* Custom broadcast variables */
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #141414;
+    --bg-tertiary: #1a1a1a;
+    --accent-blue: #3b82f6;
+    --accent-blue-hover: #60a5fa;
+    --live-red: #ef4444;
+    --text-bright: #fafafa;
+    --text-dim: #71717a;
+    
+    /* ==========================================
+       BRANDING VARIABLES
+       These can be overridden by tenant branding
+       ========================================== */
+    
+    /* Primary brand colors */
+    --brand-primary: #3b82f6;
+    --brand-secondary: #1e40af;
+    --brand-accent: #60a5fa;
+    
+    /* HSL values for opacity support */
+    --brand-primary-h: 217;
+    --brand-primary-s: 91%;
+    --brand-primary-l: 60%;
+    --brand-secondary-h: 224;
+    --brand-secondary-s: 76%;
+    --brand-secondary-l: 40%;
+    --brand-accent-h: 213;
+    --brand-accent-s: 93%;
+    --brand-accent-l: 67%;
+    
+    /* Typography */
+    --brand-font: 'Space Grotesk', sans-serif;
+    --brand-radius: 0.5rem;
+    
+    /* Utility colors from brand */
+    --brand-primary-10: hsl(var(--brand-primary-h), var(--brand-primary-s), 10%);
+    --brand-primary-20: hsl(var(--brand-primary-h), var(--brand-primary-s), 20%);
+    --brand-primary-30: hsl(var(--brand-primary-h), var(--brand-primary-s), 30%);
+    --brand-primary-40: hsl(var(--brand-primary-h), var(--brand-primary-s), 40%);
+    --brand-primary-50: hsl(var(--brand-primary-h), var(--brand-primary-s), 50%);
+    --brand-primary-60: hsl(var(--brand-primary-h), var(--brand-primary-s), 60%);
+    --brand-primary-70: hsl(var(--brand-primary-h), var(--brand-primary-s), 70%);
+    --brand-primary-80: hsl(var(--brand-primary-h), var(--brand-primary-s), 80%);
+    --brand-primary-90: hsl(var(--brand-primary-h), var(--brand-primary-s), 90%);
+    --brand-primary-95: hsl(var(--brand-primary-h), var(--brand-primary-s), 95%);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    background-color: var(--bg-primary);
+    position: relative;
+  }
+  
+  /* Subtle grid overlay for broadcast atmosphere */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 50px 50px;
+    pointer-events: none;
+    z-index: 0;
+  }
+  
+  /* Noise/grain texture overlay */
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 0;
+  }
+  
+  /* Ensure content is above overlays */
+  #__next {
+    position: relative;
+    z-index: 1;
+  }
+  
+  /* Typography enhancements */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display), system-ui, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  
+  /* Massive hero typography */
+  .text-hero {
+    font-size: clamp(3rem, 8vw, 6rem);
+    line-height: 1;
+    font-weight: 700;
+  }
+  
+  /* Section titles */
+  .text-section {
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    line-height: 1.2;
+    font-weight: 700;
+  }
+}
+
+@layer utilities {
+  /* Live pulse animation */
+  .live-pulse {
+    animation: live-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  @keyframes live-pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+  
+  /* Glow effect for accent elements */
+  .glow-accent {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3), 0 0 40px rgba(59, 130, 246, 0.1);
+  }
+  
+  /* Glow effect for live elements */
+  .glow-live {
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.3), 0 0 40px rgba(239, 68, 68, 0.1);
+  }
+  
+  /* Gradient text */
+  .gradient-text {
+    background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  /* Glassmorphism effect */
+  .glass {
+    background: rgba(20, 20, 20, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  
+  /* Broadcast-style stat number */
+  .stat-number {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  
+  /* Massive score display */
+  .score-display {
+    font-family: var(--font-display);
+    font-size: clamp(5rem, 15vw, 12rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.05em;
+  }
+  
+  /* ==========================================
+     BRANDING UTILITIES
+     ========================================== */
+  
+  /* Brand-colored backgrounds */
+  .bg-brand-primary {
+    background-color: var(--brand-primary);
+  }
+  
+  .bg-brand-secondary {
+    background-color: var(--brand-secondary);
+  }
+  
+  .bg-brand-accent {
+    background-color: var(--brand-accent);
+  }
+  
+  .bg-brand-primary-10 {
+    background-color: var(--brand-primary-10);
+  }
+  
+  .bg-brand-primary-20 {
+    background-color: var(--brand-primary-20);
+  }
+  
+  /* Brand-colored text */
+  .text-brand-primary {
+    color: var(--brand-primary);
+  }
+  
+  .text-brand-secondary {
+    color: var(--brand-secondary);
+  }
+  
+  .text-brand-accent {
+    color: var(--brand-accent);
+  }
+  
+  /* Brand borders */
+  .border-brand-primary {
+    border-color: var(--brand-primary);
+  }
+  
+  .border-brand-accent {
+    border-color: var(--brand-accent);
+  }
+  
+  /* Brand ring */
+  .ring-brand-primary {
+    --tw-ring-color: var(--brand-primary);
+  }
+  
+  /* Brand gradient */
+  .gradient-brand {
+    background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .bg-gradient-brand {
+    background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-accent) 100%);
+  }
+  
+  /* Brand glow */
+  .glow-brand {
+    box-shadow: 0 0 20px color-mix(in srgb, var(--brand-primary) 30%, transparent), 
+                0 0 40px color-mix(in srgb, var(--brand-primary) 10%, transparent);
+  }
+  
+  /* Use brand font */
+  .font-brand {
+    font-family: var(--brand-font);
+  }
+  
+  /* Brand radius */
+  .rounded-brand {
+    border-radius: var(--brand-radius);
+  }
+}
+
+/* ==========================================
+   PRINT STYLES
+   ========================================== */
+
+@media print {
+  /* Page setup */
+  @page {
+    size: letter;
+    margin: 0.5in;
+  }
+
+  /* Hide non-print elements */
+  body::before,
+  body::after,
+  nav,
+  header,
+  footer:not(.print-footer),
+  button,
+  .no-print,
+  [data-no-print] {
+    display: none !important;
+  }
+
+  /* Reset dark theme for print */
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  /* Ensure print container is visible */
+  .print-container {
+    display: block !important;
+    background: white !important;
+    color: black !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Typography for print */
+  .print-header h1 {
+    color: black !important;
+    font-size: 24pt !important;
+    line-height: 1.2 !important;
+  }
+
+  .print-header p {
+    color: #666 !important;
+  }
+
+  /* Tables */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th, td {
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+
+  th {
+    background-color: #f5f5f5 !important;
+    font-weight: bold;
+  }
+
+  /* Page breaks */
+  .print-page-break-before {
+    page-break-before: always;
+  }
+
+  .print-page-break-after {
+    page-break-after: always;
+  }
+
+  .print-page-break-inside-avoid {
+    page-break-inside: avoid;
+  }
+
+  /* QR codes */
+  .print-qr {
+    page-break-inside: avoid;
+  }
+
+  /* Links */
+  a {
+    text-decoration: none;
+    color: black !important;
+  }
+
+  a[href^="http"]:after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #666;
+  }
+
+  /* Ensure images don't break across pages */
+  img {
+    page-break-inside: avoid;
+  }
+
+  /* Card styling for print */
+  .card, [class*="Card"] {
+    border: 1px solid #ddd !important;
+    box-shadow: none !important;
+    background: white !important;
+  }
+
+  /* Badge styling for print */
+  [class*="Badge"] {
+    border: 1px solid #999 !important;
+    background: #f5f5f5 !important;
+    color: black !important;
+  }
+
+  /* Footer */
+  .print-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}
+
+/* Print-only class (visible only in print) */
+.print-only {
+  display: none;
+}
+
+@media print {
+  .print-only {
+    display: block !important;
+  }
+}
+
+/* Screen-only class (hidden in print) */
+@media print {
+  .screen-only {
+    display: none !important;
+  }
+}
